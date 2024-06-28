@@ -1,7 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { APIerror } from "../utils/APIerror.js"
-import { upload } from "../middlewares/multer.middleware.js";
 import { ApiResponse } from "../utils/APIresponse.js";
+import { User } from "../models/user.models.js"
+import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
     //get user details from frontend
     const registerUser = asyncHandler(async (req, res) => {
@@ -18,7 +19,7 @@ import { ApiResponse } from "../utils/APIresponse.js";
     }
 
     //check if user already exists
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{username},{email}]
     })
 
