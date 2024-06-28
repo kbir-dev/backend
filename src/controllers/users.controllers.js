@@ -29,11 +29,14 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
     //Check for Images in Local Path
 
+    console.log(req.files)
     const avatarLocalPath = req.files?.avatar[0]?.path;
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
+    console.log(avatarLocalPath)
+
     if(!avatarLocalPath){
-        throw new APIerror(400, "Avatar is required")
+        throw new APIerror(400, "Avatar is required I am not uploaded in Local Path")
     }
 
     //Check for Images in Cloudinary
@@ -42,7 +45,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     if(!avatar){
-        throw new APIerror(400, "Avatar is required")
+        throw new APIerror(400, "Avatar is required I am not uploaded in Cloudinary")
     }
 
     //Create User Object to Store in DB
