@@ -73,10 +73,10 @@ const userSchema = new mongoose.Schema({
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: "1d"//process.env.ACCESS_TOKEN_EXPIRY,
         }
         )
-    }
+    };
 
     userSchema.methods.generateRefreshToken = function(){
         return jwt.sign({
@@ -84,9 +84,9 @@ const userSchema = new mongoose.Schema({
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: "10d"//process.env.REFRESH_TOKEN_EXPIRY,
         }
         )
-    }
+    };
 
 export const User = mongoose.model("User",userSchema)

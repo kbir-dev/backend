@@ -3,6 +3,7 @@ import { registerUser } from "../controllers/users.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js"
 import { loginUser } from "../controllers/users.controllers.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { logoutUser } from "../controllers/users.controllers.js";
 
 const router = Router();
 

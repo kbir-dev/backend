@@ -6,15 +6,21 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const generateAccessAndRefreshTokens = async(userId) => {
     try{
-        const user = User.findById(userId)
+        console.log("User Id is : ",userId)
+        const user = await User.findById(userId)
+        console.log("I am User : ",user)
+        console.log(process.env.ACCESS_TOKEN_EXPIRY)
+        console.log(typeof process.env.ACCESS_TOKEN_EXPIRY)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
+        console.log(refreshToken)
 
         user.refreshToken = refreshToken;
         await user.save({validateBeforeSave : true})
         return {accessToken,refreshToken}
 
     }catch(error){
+        console.log(error)
         throw new APIerror(500,"Something went wrong while generating refresh and access tokens")
     }
 }
@@ -132,8 +138,8 @@ const loginUser = asyncHandler(async (req,res) => {
 
     //send response 
     return res.status(200)
-    .cookies("accessToken",accessToken, options)
-    .cookies("refreshToken",refreshToken, options)
+    .cookie("accessToken",accessToken, options)
+    .cookie("refreshToken",refreshToken, options)
     .json(
         new ApiResponse(200,loggedInUser,"User Logged In Successfully")
     )
@@ -160,8 +166,8 @@ const logoutUser = asyncHandler(async (req,res)=>{
 
     return res
     .status(200)
-    .clearCookie("accessToken",accessToken, options)
-    .clearCookie("refreshToken",refreshToken, options)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200,{},"Logged Out Successfully"))
 })
 
